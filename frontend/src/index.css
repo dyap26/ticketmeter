@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Tailwind semantic tokens (HSL triplets, no hsl() wrapper) */
+    --background: 233 43% 5%;
+    --foreground: 45 18% 88%;
+    --card: 234 38% 7%;
+    --card-foreground: 45 18% 88%;
+    --popover: 234 38% 7%;
+    --popover-foreground: 45 18% 88%;
+    --primary: 74 100% 50%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 232 32% 10%;
+    --secondary-foreground: 45 18% 88%;
+    --muted: 232 32% 10%;
+    --muted-foreground: 228 14% 38%;
+    --accent: 232 32% 12%;
+    --accent-foreground: 45 18% 88%;
+    --destructive: 0 100% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 232 28% 13%;
+    --input: 232 32% 11%;
+    --ring: 74 100% 50%;
+    --radius: 4px;
+
+    /* Raw palette — used directly in custom classes */
+    --c-bg:     #070810;
+    --c-surf:   #0c0d18;
+    --c-surf2:  #111320;
+    --c-surf3:  #171929;
+    --c-border: rgba(255,255,255,0.07);
+    --c-text:   #e8e4d8;
+    --c-mid:    #8a8fa8;
+    --c-muted:  #4b4f66;
+    --c-lime:   #b8ff00;
+    --c-red:    #ff3535;
+    --c-amber:  #ffaa00;
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    background: var(--c-bg);
+  }
+
+  body {
+    background: var(--c-bg);
+    color: var(--c-text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    /* Faint ambient lime glow — top-left corner */
+    background-image:
+      radial-gradient(ellipse 70% 45% at -5% -10%, rgba(184,255,0,0.055) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 35% at 105% 110%, rgba(184,255,0,0.025) 0%, transparent 70%);
+  }
+
+  /* Subtle scanline texture — barely perceptible */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.011) 2px,
+      rgba(255,255,255,0.011) 4px
+    );
+    pointer-events: none;
+    z-index: 9998;
+  }
+}
+
+/* ─── Custom utility classes ─────────────────────────────── */
+@layer utilities {
+  /* Typography */
+  .font-display {
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: 0.01em;
+  }
+  .font-data {
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* Surface layers */
+  .bg-arena      { background: var(--c-bg); }
+  .bg-surf       { background: var(--c-surf); }
+  .bg-surf2      { background: var(--c-surf2); }
+  .bg-surf3      { background: var(--c-surf3); }
+
+  /* Text shades */
+  .text-arena    { color: var(--c-text); }
+  .text-mid      { color: var(--c-mid); }
+  .text-muted-arena { color: var(--c-muted); }
+
+  /* Signal colors */
+  .text-lime     { color: var(--c-lime); }
+  .text-red-sig  { color: var(--c-red); }
+  .text-amber-sig{ color: var(--c-amber); }
+  .bg-lime       { background: var(--c-lime); }
+  .bg-red-sig    { background: var(--c-red); }
+  .bg-amber-sig  { background: var(--c-amber); }
+
+  /* Score states */
+  .score-buy     { color: var(--c-red); }
+  .score-neutral { color: var(--c-amber); }
+  .score-wait    { color: var(--c-lime); }
+  .bg-score-buy  { background: rgba(255,53,53,0.12); border-color: rgba(255,53,53,0.25); }
+  .bg-score-wait { background: rgba(184,255,0,0.10); border-color: rgba(184,255,0,0.22); }
+  .bg-score-neutral { background: rgba(255,170,0,0.10); border-color: rgba(255,170,0,0.22); }
+
+  /* Dividers */
+  .border-arena  { border-color: var(--c-border); }
+  .divide-arena > * + * { border-top: 1px solid var(--c-border); }
+
+  /* Sharp pill badges */
+  .badge-magnitude {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+  }
+
+  /* Thin left-border accent */
+  .card-accent-buy     { box-shadow: inset 3px 0 0 var(--c-red); }
+  .card-accent-wait    { box-shadow: inset 3px 0 0 var(--c-lime); }
+  .card-accent-neutral { box-shadow: inset 3px 0 0 var(--c-amber); }
+
+  /* Line clamp */
+  .line-clamp-1 { overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:1; }
+  .line-clamp-2 { overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; }
+  .line-clamp-3 { overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; }
+}
+
+/* ─── Component-level overrides ────────────────────────── */
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+/* Recharts customization */
+.recharts-tooltip-wrapper { outline: none; }
+.recharts-default-tooltip {
+  background: var(--c-surf2) !important;
+  border: 1px solid var(--c-border) !important;
+  border-radius: 4px !important;
+  font-family: 'DM Mono', monospace !important;
+  font-size: 11px !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+}
+
+/* Input / select focus ring override */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px var(--c-lime);
+}
+
+/* Transition defaults */
+a, button { transition: color 0.12s, background 0.12s, border-color 0.12s, opacity 0.12s; }
